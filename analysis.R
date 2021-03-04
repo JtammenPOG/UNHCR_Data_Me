@@ -17,7 +17,6 @@ unique(unique(all_data$Country.of.asylum)) # How many countries are people takin
 
 # Basic Questions ---------------------------------------------------------
 
-
 data <- all_data %>% 
   filter(Year == 2020) %>% 
   select(contains("Country"), Asylum.seekers)
@@ -51,14 +50,11 @@ top_10_countries <- country_data %>%
 shapefile <- map_data("world")
 # Get iso3 codes
 shapefile <- shapefile %>% 
-  mutate(iso = countrycode(region, origin = 'country.name', destination = 'iso3c')) %>% 
+  mutate(Country.of.origin..ISO.  = countrycode(region, origin = 'country.name', destination = 'iso3c')) %>% 
   left_join(country_data, by = "Country.of.origin..ISO.")
   
-ggplot(data = shapefile) +
-  geom_polygon(mapping = aes(x = long, y = lat, group = group))
 
-  
-ggplot(data = shapefile) +
+asylum_map <- ggplot(data = shapefile) +
   geom_polygon(
     mapping = aes(x = long, y = lat, group = group, fill = Asylum.seekers)
   ) + 
